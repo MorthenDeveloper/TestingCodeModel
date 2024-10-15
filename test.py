@@ -12,7 +12,7 @@ import unittest
 from unittest.mock import patch, MagicMock
 
 from load_data import GetDataKaggle
-from ml import train_kaggle
+from ml import MLSystem
 
 # Clase de prueba
 class TestKagglePipeline(unittest.TestCase):
@@ -44,8 +44,10 @@ class TestKagglePipeline(unittest.TestCase):
         data_path = os.path.join('data', 'train.csv')
         df.to_csv(data_path, index=False)
 
+        ml_system = MLSystem()
+
         # Testea el entrenamiento
-        model, accuracy = train_kaggle(data_path)
+        model, accuracy = ml_system.train_kaggle(data_path)
 
         # Asegurarse de que se entrena un modelo y la precisión es válida
         self.assertIsNotNone(model) # asegura que no devuelva none
@@ -60,8 +62,10 @@ class TestKagglePipeline(unittest.TestCase):
         # Verificar que los archivos se descargaron correctamente
         self.assertTrue(os.path.exists(data_path), "El archivo train.csv no se descargó correctamente!")
 
+        ml_system = MLSystem()
+
         # Entrenar el modelo con los datos descargados
-        model, accuracy = train_kaggle(data_path)
+        model, accuracy = ml_system.train_kaggle(data_path)
 
         # Verificar que se entrene el modelo y se calcule una precisión válida
         self.assertIsNotNone(model, "El modelo no se entrenó correctamente, modelo no válido")
